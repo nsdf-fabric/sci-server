@@ -67,11 +67,9 @@ jupyter lab --no-browser --ip=* --port 8888 \
 # screen -S sciserver
 # screen -d -r sciserver
 
-TAG=3.1.0
-sudo docker build --tag nsdf/sciserver:$TAG  --build-arg TAG=$TAG .
-# 
-# --network host
-sudo docker run --rm --publish 9999:9999 -it -v ./notebooks:/home/idies/notebooks nsdf/sciserver:$TAG /bin/bash
+
+sudo docker build --tag nsdf/sciserver:$TAG  --build-arg TAG=3.1.0
+sudo docker run --rm --publish 9999:9999 -it -v ./notebooks:/home/idies/notebooks nsdf/sciserver:3.1.0 /bin/bash
 jupyter lab --no-browser --ip=* --port 9999 \
     --notebook-dir=/home/idies/notebooks \
     --NotebookApp.token= \
@@ -81,7 +79,7 @@ jupyter lab --no-browser --ip=* --port 9999 \
 
 # http://canada3.nationalsciencedatafabric.org:9999/lab
 
-sudo docker push nsdf/sciserver:$TAG
+sudo docker push nsdf/sciserver:3.1.0
 ```
 
 
