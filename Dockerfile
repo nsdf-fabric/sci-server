@@ -25,18 +25,18 @@ RUN ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime \
     && locale-gen "en_US.UTF-8" \
     && update-locale "LANG=en_US.UTF-8"
 
-RUN apt-get update \
-    && apt-get install -y texlive-full \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update \
+#    && apt-get install -y texlive-full \
+#    && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8888
 
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
-    && apt-get update \
-    && apt-get install -y \
-        nodejs \
-        yarn \
-    && rm -rf /var/lib/apt/lists/*
+# RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+#     && apt-get update \
+#    && apt-get install -y \
+#        nodejs \
+#        yarn \
+#    && rm -rf /var/lib/apt/lists/*
 
 USER idies
 
@@ -48,20 +48,10 @@ RUN curl -L "https://github.com/conda-forge/miniforge/releases/latest/download/M
 
 ENV PATH /home/idies/miniforge3/bin:$PATH
 
-RUN mamba install -y -c conda-forge \
-        jupyter=1.0.0 \
-        jupyterlab=3.4.3 \
-        mamba=0.24.0 \
-        pip=22.1.2 \
-        geoviews==1.11.0 \
-        bokeh==3.3 \
-        ipywidgets=8.1.1 \
-        panel==1.3.4 \
-        matplotlib==3.8.2 \
-        param==2.0.1 \
-        jupyter_bokeh==3.0.7 
+COPY requirements.txt ./requirements.txt
 
-COPY startup.sh /opt/startup.sh
+RUN mamba install -y -c conda-forge --file requirements.txt
 
+COPY startup.sh ./startup.sh
 
-ENV  SHELL /bin/bash
+ENV SHELL /bin/bash

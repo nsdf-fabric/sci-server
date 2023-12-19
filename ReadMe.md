@@ -3,6 +3,7 @@
 Links:
 - https://github.com/sciserver/sciserver-compute-images/tree/master/essentials/3.0/sciserver-jupyter
 - https://sciserver.org/wp-content/uploads/2021/09/sciserver-how-to-2021-09-22.pdf
+- SLITE https://sci-visus.slite.com/app/channels/OwxhuMq3GHY_Jk
 
 
 ## Pip
@@ -13,17 +14,7 @@ python3 -m venv ./.venv
 source .venv/bin/activate
 python3 --version
 
-python3 -m pip install  \
-        jupyter==1.0.0 \
-        jupyterlab==3.4.3 \
-        pip==22.1.2 \
-        geoviews==1.11.0 \
-        bokeh==3.3 \
-        ipywidgets==8.1.1 \
-        panel==1.3.4 \
-        matplotlib==3.8.2 \
-        param==2.0.1 \
-        jupyter_bokeh==3.0.7 
+python3 -m pip install  -r requirements.txt
 
 jupyter lab --no-browser --ip=* --port 7777 \
     --notebook-dir=${PWD}/notebooks \
@@ -48,18 +39,7 @@ rm -f miniforge3.sh
 # create the environment
 export PATH=${HOME}/miniforge3/bin:$PATH
 
-mamba create --name my-env -y -c conda-forge \
-        jupyter=1.0.0 \
-        jupyterlab=3.4.3 \
-        mamba=0.24.0 \
-        pip=22.1.2 \
-        geoviews==1.11.0 \
-        bokeh==3.3 \
-        ipywidgets=8.1.1 \
-        panel==1.3.4 \
-        matplotlib==3.8.2 \
-        param==2.0.1 \
-        jupyter_bokeh==3.0.7 
+mamba create --name my-env -y -c conda-forge --file requirements.txt
 
 # activate the environment
 source ~/miniforge3/envs/my-env/bin/activate
@@ -75,8 +55,11 @@ jupyter lab --no-browser --ip=* --port 9999 \
 # http://canada3.nationalsciencedatafabric.org:9999/lab
 ```
 
-
 ## Docker
+
+**PROBLEM HERE**
+- bokeh port is not reachable from the outside
+- so I am using `--network host` to make all the ports reachable, which I guess it's not very safe
 
 ```bash
 
@@ -84,9 +67,11 @@ jupyter lab --no-browser --ip=* --port 9999 \
 # screen -S sciserver
 # screen -d -r sciserver
 
-TAG=3.1
+TAG=3.1.0
 sudo docker build --tag nsdf/sciserver:$TAG  --build-arg TAG=$TAG .
-sudo docker run --rm --publish 8888:8888 -it -v ./notebooks:/home/idies/notebooks nsdf/sciserver:$TAG /bin/bash
+# --publish 8888:8888
+# --network host
+sudo docker run --rm --network host -it -v ./notebooks:/home/idies/notebooks nsdf/sciserver:$TAG /bin/bash
 jupyter lab --no-browser --ip=* --port 8888 \
     --notebook-dir=/home/idies/notebooks \
     --NotebookApp.token= \
