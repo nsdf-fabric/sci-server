@@ -45,21 +45,21 @@ mamba create --name my-env -y -c conda-forge --file requirements.txt
 source ~/miniforge3/envs/my-env/bin/activate
 
 # run jupyter lab
-jupyter lab --no-browser --ip=* --port 9999 \
+jupyter lab --no-browser --ip=* --port 8888 \
     --notebook-dir=${PWD}/notebooks \
     --NotebookApp.token= \
     --KernelSpecManager.ensure_native_kernel=False \
     --NotebookApp.allow_remote_access=True \
     --NotebookApp.quit_button=False 
 
-# http://canada3.nationalsciencedatafabric.org:9999/lab
+# http://canada3.nationalsciencedatafabric.org:8888/lab
 ```
 
 ## Docker
 
 **PROBLEM HERE**
 - bokeh port is not reachable from the outside
-- so I am using `--network host` to make all the ports reachable, which I guess it's not very safe
+- if you need bokeh, use `--network host` to make all the ports reachable
 
 ```bash
 
@@ -69,17 +69,17 @@ jupyter lab --no-browser --ip=* --port 9999 \
 
 TAG=3.1.0
 sudo docker build --tag nsdf/sciserver:$TAG  --build-arg TAG=$TAG .
-# --publish 8888:8888
+# 
 # --network host
-sudo docker run --rm --network host -it -v ./notebooks:/home/idies/notebooks nsdf/sciserver:$TAG /bin/bash
-jupyter lab --no-browser --ip=* --port 8888 \
+sudo docker run --rm --publish 9999:9999 -it -v ./notebooks:/home/idies/notebooks nsdf/sciserver:$TAG /bin/bash
+jupyter lab --no-browser --ip=* --port 9999 \
     --notebook-dir=/home/idies/notebooks \
     --NotebookApp.token= \
     --KernelSpecManager.ensure_native_kernel=False \
     --NotebookApp.allow_remote_access=True \
     --NotebookApp.quit_button=False 
 
-# http://canada3.nationalsciencedatafabric.org:8888/lab
+# http://canada3.nationalsciencedatafabric.org:9999/lab
 
 sudo docker push nsdf/sciserver:$TAG
 ```
