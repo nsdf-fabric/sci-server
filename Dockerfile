@@ -31,12 +31,13 @@ RUN ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime \
 
 EXPOSE 8888
 
-# RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
-#     && apt-get update \
-#    && apt-get install -y \
-#        nodejs \
-#        yarn \
-#    && rm -rf /var/lib/apt/lists/*
+# I think nodejs may be needed for jupyter lab status
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get update \
+   && apt-get install -y \
+       nodejs \
+       yarn \
+   && rm -rf /var/lib/apt/lists/*
 
 USER idies
 
@@ -51,7 +52,5 @@ ENV PATH /home/idies/miniforge3/bin:$PATH
 COPY requirements.txt ./requirements.txt
 
 RUN mamba install -y -c conda-forge --file requirements.txt
-
-COPY startup.sh ./startup.sh
 
 ENV SHELL /bin/bash

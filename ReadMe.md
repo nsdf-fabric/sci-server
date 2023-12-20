@@ -6,14 +6,14 @@ Links:
 - SLITE https://sci-visus.slite.com/app/channels/OwxhuMq3GHY_Jk
 
 
+
+
 ## Pip
 
 ```bash
 
 python3 -m venv ./.venv
 source .venv/bin/activate
-python3 --version
-
 python3 -m pip install  -r requirements.txt
 
 jupyter lab --no-browser --ip=* --port 7777 \
@@ -39,14 +39,15 @@ rm -f miniforge3.sh
 # create the environment
 export PATH=${HOME}/miniforge3/bin:$PATH
 
-mamba create --name my-env -y -c conda-forge --file requirements.txt
+# rm -Rf ~/miniforge3/envs/my-env
+mamba create --name nsdf-sciserver-env -y -c conda-forge python=3.10 --file requirements.txt
 
 # activate the environment
-source ~/miniforge3/envs/my-env/bin/activate
+conda activate nsdf-sciserver-env
 
 # run jupyter lab
-jupyter lab --no-browser --ip=* --port 8888 \
-    --notebook-dir=${PWD}/notebooks \
+jupyter lab --no-browser --ip canada3.nationalsciencedatafabric.org --port 8888 \
+    --notebook-dir=${PWD} \
     --NotebookApp.token= \
     --KernelSpecManager.ensure_native_kernel=False \
     --NotebookApp.allow_remote_access=True \
@@ -83,3 +84,7 @@ sudo docker push nsdf/sciserver:3.1.0
 ```
 
 
+# Notebooks
+
+Links:
+- https://github.com/holoviz/geoviews.git
