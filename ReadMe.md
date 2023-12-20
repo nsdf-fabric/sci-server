@@ -40,9 +40,10 @@ in a MSDOS prompt
 
 cd \directory\containing\unzipped\folder
 set PATH=%PATH%;%USERPROFILE%\miniforge3\Scripts
-mamba create --name my-env -y -c bokeh -c conda-forge pyqt==5.15.10 --file requirements.txt
+mamba create --name my-env -y -c bokeh -c conda-forge pyqt==5.15.9 --file requirements.txt
 
-mamba init
+conda init
+# or `source $HOME/miniforge3/bin/activate`
 # you may have to open a new prompt
 
 mamba activate my-env
@@ -67,7 +68,7 @@ python -m pip install  PyQt5==5.15.10 -r requirements.txt
 jupyter lab  .
 ```
 
-If you are running on a public node,  first install NodeJS (see section below)
+If you are running on a public node,  first install NodeJS (see section below), and then
 
 ```bash
 
@@ -93,6 +94,8 @@ jupyter lab --no-browser \
 
 ## Linux/macOS Conda
 
+This works on Apple ARM64 too (i.e. Silicon M1/M2)
+
 Install conda:
 
 ```bash
@@ -110,7 +113,11 @@ cd sci-server
 export PATH=${HOME}/miniforge3/bin:$PATH
 
 # rm -Rf ~/miniforge3/envs/my-env
-mamba create --name my-env -y -c bokeh -c conda-forge python=3.10 pyqt==5.15.10 --file requirements.txt
+mamba create --name my-env -y -c bokeh -c conda-forge python=3.10 pyqt==5.15.9 --file requirements.txt
+
+conda init
+# or `source $HOME/miniforge3/bin/activate`
+# you may have to re-open your shell 
 
 # activate the environment
 conda activate my-env
@@ -119,7 +126,7 @@ conda activate my-env
 jupyter lab .
 ```
 
-If you are running on a public node,  first install NodeJS (see section below)
+If you are running on a public node,  first install NodeJS (see section below), and then:
 
 ```bash
 
