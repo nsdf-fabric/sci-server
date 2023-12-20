@@ -52,6 +52,8 @@ jupyter lab .
 
 ## Linux/macOS PIP 
 
+This works on Apple ARM64 too (i.e. Silicon M1/M2)
+
 ```bash
 
 git clone https://github.com/nsdf-fabric/sci-server
@@ -68,9 +70,19 @@ python -m pip install  PyQt5==5.15.10 -r requirements.txt
 jupyter lab  .
 ```
 
-If you are running on a public node,  first install NodeJS (see section below), and then
+If you are running on a public node:
 
 ```bash
+
+# need nodejs for jupyter lab
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=16
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+sudo apt-get update
+sudo apt-get install -y yarn nodejs
 
 # enablejupyter lab proxy for bokeh
 jupyter serverextension enable --py jupyter_server_proxy
@@ -105,7 +117,6 @@ bash miniforge3.sh -b
 
 ```bash
 
-
 git clone https://github.com/nsdf-fabric/sci-server
 cd sci-server
 
@@ -126,9 +137,19 @@ conda activate my-env
 jupyter lab .
 ```
 
-If you are running on a public node,  first install NodeJS (see section below), and then:
+If you are running on a public node:
 
 ```bash
+
+# need nodejs for jupyter lab
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=16
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+sudo apt-get update
+sudo apt-get install -y yarn nodejs
 
 # enablejupyter lab proxy for bokeh
 jupyter serverextension enable --py jupyter_server_proxy
@@ -190,22 +211,6 @@ jupyter lab --no-browser \
 # http://canada3.nationalsciencedatafabric.org:8888/lab
 
 sudo docker push nsdf/sciserver:${TAG}
-```
-
-## Install NodeJS
-
-NodeJS is needed foor jupyter lab proxy for bokeh:
-
-```bash
-
-sudo apt-get update
-sudo apt-get install -y ca-certificates curl gnupg
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-NODE_MAJOR=16
-echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-sudo apt-get update
-sudo apt-get install -y yarn nodejs
 ```
 
 
