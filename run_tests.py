@@ -6,7 +6,7 @@ from pprint import pprint
 # this is needed for some demos
 if True:
   import bokeh
-  bokeh.sampledata.download()
+  bokeh.sampledata.download(progress=False)
 
 notebooks=glob.glob("examples/**/*.ipynb",recursive=True)
 notebooks=[it for it in notebooks if not "checkpoints" in it]

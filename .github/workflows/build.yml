@@ -24,6 +24,11 @@ jobs:
            python -m pip install  -r requirements.pip.txt -r requirements.txt
            which python 
            python -u ./run_tests.py
+    - uses: actions/upload-artifact@v3
+      with:
+        name: cpython-${{ matrix.os }}-${{ matrix.python-version }}
+        path: examples/**/*.html
+           
 
   build-conda:
     runs-on: ${{ matrix.os }}
@@ -43,7 +48,14 @@ jobs:
           set -ex
           which python 
           python -u ./run_tests.py
-
+    - uses: actions/upload-artifact@v3
+      with:
+        name: conda-${{ matrix.os }}-${{ matrix.python-version }}
+        retention-days: 5
+        path: |
+              examples/**/*.html
+              examples/**/*.txt
+              !examples/**/*.ipynb
 
 
 
