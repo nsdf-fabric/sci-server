@@ -21,6 +21,7 @@ RUN ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime \
         vim \
         htop \
         locales \
+        unzip \
     && rm -rf /var/lib/apt/lists/* \
     && locale-gen "en_US.UTF-8" \
     && update-locale "LANG=en_US.UTF-8"

@@ -1,5 +1,14 @@
 # Instructions
 
+
+List of examples:
+
+- examples/geoviews      https://github.com/holoviz/geoviews/tree/main/examples/gallery
+- examples/panel         https://github.com/holoviz/panel/tree/main/examples/gallery
+- examples/holoviews     https://github.com/holoviz/holoviews/tree/main/examples/gallery/demos
+- examples/gis_notebooks https://github.com/Automating-GIS-processes/notebooks
+- examples/folium        https://github.com/python-visualization/folium
+
 Table of content:
 
 - [Windows PIP      ](#windows-pip)
