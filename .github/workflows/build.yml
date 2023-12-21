@@ -22,6 +22,8 @@ jobs:
       run: |
            set -ex
            python -m pip install  -r requirements.pip.txt -r requirements.txt
+           which python 
+           python ./run_tests.py
 
   build-conda:
     runs-on: ${{ matrix.os }}
@@ -38,8 +40,9 @@ jobs:
         create-args: -c bokeh -c conda-forge python=${{ matrix.python-version }} --file requirements.conda.txt --file requirements.txt
     - shell: bash -el {0}
       run: |
-            set -ex
-            which python 
+          set -ex
+          which python 
+          python ./run_tests.py
 
 
 
