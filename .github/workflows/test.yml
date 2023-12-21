@@ -1,0 +1,53 @@
+name: test
+on: [push] 
+
+jobs:
+
+  build-cpython:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false  
+      matrix:
+        python-version: [ '3.9' , '3.10', '3.11', '3.12']
+        os: [ windows-latest, macos-latest, ubuntu-latest ]
+    steps:
+    - uses: actions/checkout@v2    
+    - uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - shell: bash
+      run: |
+           set -ex
+           export PYTHON_VERSION=${{ matrix.python-version }}
+           python --version
+
+  build-conda:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false  
+      matrix:
+        python-version: [ '3.9', '3.10', '3.11', '3.12' ] 
+        os: [ windows-latest, macos-latest, ubuntu-latest ]
+    steps:
+    - uses: actions/checkout@v2   
+    - uses: conda-incubator/setup-miniconda@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+        mamba-version: "*"
+        channels: conda-forge, defaults
+        channel-priority: true
+    - shell: bash -el {0}
+      run: |
+           set -ex
+           export PYTHON_VERSION=${{ matrix.python-version }}
+           conda info
+           python --version
+
+
+
+
+
+
+
+
