@@ -9,4 +9,5 @@ dist/
 build
 .workflow
 .vscode
-
+*.log
+examples/**/*.html

@@ -19,15 +19,22 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - shell: bash
+      name: install requirements 
       run: |
            set -ex
-           python -m pip install  -r requirements.pip.txt -r requirements.txt
+           python -m pip install -q -r requirements.pip.txt -r requirements.txt
            which python 
-           python -u ./run_tests.py
+    - shell: bash
+      name: run tests
+      run: python -u ./run_tests.py
     - uses: actions/upload-artifact@v3
+      name: upload artifacts
       with:
-        name: cpython-${{ matrix.os }}-${{ matrix.python-version }}
-        path: examples/**/*.html
+        name: conda-${{ matrix.os }}-${{ matrix.python-version }}
+        retention-days: 5
+        path: |
+              ./examples/**/*.html
+              ./*.log
            
 
   build-conda:
@@ -40,22 +47,20 @@ jobs:
     steps:
     - uses: actions/checkout@v2   
     - uses: mamba-org/setup-micromamba@v1
+      name: setup conda
       with:
         environment-name: my-env
         create-args: -c bokeh -c conda-forge python=${{ matrix.python-version }} --file requirements.conda.txt --file requirements.txt
     - shell: bash -el {0}
-      run: |
-          set -ex
-          which python 
-          python -u ./run_tests.py
+      name: run tests
+      run: python -u ./run_tests.py
     - uses: actions/upload-artifact@v3
       with:
         name: conda-${{ matrix.os }}-${{ matrix.python-version }}
         retention-days: 5
         path: |
-              examples/**/*.html
-              examples/**/*.txt
-              !examples/**/*.ipynb
+              ./examples/**/*.html
+              ./*.log
 
 
 
