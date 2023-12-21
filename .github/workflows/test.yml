@@ -19,8 +19,7 @@ jobs:
     - shell: bash
       run: |
            set -ex
-           export PYTHON_VERSION=${{ matrix.python-version }}
-           python --version
+           python -m pip install  -r requirements.pip.txt -r requirements.txt
 
   build-conda:
     runs-on: ${{ matrix.os }}
@@ -40,9 +39,10 @@ jobs:
     - shell: bash -el {0}
       run: |
            set -ex
-           export PYTHON_VERSION=${{ matrix.python-version }}
-           conda info
-           python --version
+           mamba create --name my-env -y -c bokeh -c conda-forge python=${{ matrix.python-version }} --file requirements.conda.txt --file requirements.txt
+           mamba activate my-env
+
+
 
 
 

@@ -2,9 +2,9 @@
 
 Table of content:
 
-- [Windows PIP](#windows-pip)
-- [Windows Conda](#windows-conda)
-- [Linux/macOS PIP](#linux-macos-pip)
+- [Windows PIP      ](#windows-pip)
+- [Windows Conda    ](#windows-conda)
+- [Linux/macOS PIP  ](#linux-macos-pip)
 - [Linux/macOS Conda](#linux-macos-conda)
 
 
@@ -23,7 +23,7 @@ cd \directory\containing\unzipped\folder
 
 python -m venv .venv
 .venv\Scripts\activate
-python -m pip install  PyQt5==5.15.10 -r requirements.txt
+python -m pip install  -r requirements.pip.txt -r requirements.txt
 jupyter lab .
 ```
 
@@ -40,7 +40,7 @@ in a MSDOS prompt
 
 cd \directory\containing\unzipped\folder
 set PATH=%PATH%;%USERPROFILE%\miniforge3\Scripts
-mamba create --name my-env -y -c bokeh -c conda-forge pyqt==5.15.9 --file requirements.txt
+mamba create --name my-env -y -c bokeh -c conda-forge --file requirements.conda.txt --file requirements.txt
 
 conda init
 # or `source $HOME/miniforge3/bin/activate`
@@ -64,7 +64,7 @@ python3 -m venv ./.venv
 source .venv/bin/activate
 
 # install requirements
-python -m pip install  PyQt5==5.15.10 -r requirements.txt
+python -m pip install  -r requirements.pip.txt -r requirements.txt
 
 # run jupyter lab locally
 jupyter lab  .
@@ -124,7 +124,7 @@ cd sci-server
 export PATH=${HOME}/miniforge3/bin:$PATH
 
 # rm -Rf ~/miniforge3/envs/my-env
-mamba create --name my-env -y -c bokeh -c conda-forge python=3.10 pyqt==5.15.9 --file requirements.txt
+mamba create --name my-env -y -c bokeh -c conda-forge python=3.10 --file requirements.conda.txt --file requirements.txt
 
 conda init
 # or `source $HOME/miniforge3/bin/activate`
