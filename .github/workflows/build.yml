@@ -23,7 +23,7 @@ jobs:
            set -ex
            python -m pip install  -r requirements.pip.txt -r requirements.txt
            which python 
-           python ./run_tests.py
+           python -u ./run_tests.py
 
   build-conda:
     runs-on: ${{ matrix.os }}
@@ -42,7 +42,7 @@ jobs:
       run: |
           set -ex
           which python 
-          python ./run_tests.py
+          python -u ./run_tests.py
 
 
 
