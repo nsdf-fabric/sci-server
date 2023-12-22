@@ -39,6 +39,34 @@ jupyter lab --no-browser \
     --NotebookApp.quit_button=False 
 ```
 
+## JupyterHub
+
+See 
+- https://tljh.jupyter.org/en/latest/install/custom-server.html
+
+
+```
+# inside JupytrHub `New terminal` ```
+
+sudo su -
+cd /home/u0705839/github.com/nsdf-fabric/sci-server
+
+tljh-config set user_environment.default_app jupyterlab
+
+tljh-config show
+
+
+
+export PATH=/opt/tljh/user/bin:$PATH
+
+mamba install -y -c conda-forge nb_conda_kernels
+
+mamba create --name my-env -y -c bokeh -c conda-forge python=3.10 --file requirements.conda.txt --file requirements.txt
+mamba init
+mamba activate my-env
+tljh-config reload hub
+
+
 
 ## Docker build
 
