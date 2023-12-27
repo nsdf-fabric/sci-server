@@ -50,8 +50,9 @@ RUN curl -L "https://github.com/conda-forge/miniforge/releases/latest/download/M
 ENV PATH /home/idies/miniforge3/bin:$PATH
 
 COPY requirements.txt requirements.txt
+COPY requirements.conda.txt requirements.conda.txt
 
-RUN mamba install -y -y -c bokeh -c conda-forge pyqt==5.15.9 --file requirements.txt
+RUN mamba install -y -y -c bokeh -c conda-forge --file requirements.conda.txt --file requirements.txt
 
 # need to proxy bokeh connections
 RUN jupyter serverextension enable --py jupyter_server_proxy
