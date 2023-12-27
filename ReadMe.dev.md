@@ -101,6 +101,9 @@ See:
 
 ```bash
 
+# *** CHANGE HOSTNAME as needed *** 
+sudo hostname chpc3.nationalsciencedatafabric.org
+
 # uninstall previous TLJH
 #   sudo rm -rf /opt/tljh/hub
 #   sudo rm -rf /opt/tljh/config
@@ -131,36 +134,41 @@ sudo /opt/tljh/user/bin/mamba update --all -y
 # sudo /opt/tljh/user/bin/mamba uninstall -y pillow libjpeg-turbo jpeg
 
 sudo /opt/tljh/user/bin/mamba install -y -c conda-forge python==3.10
-sudo /opt/tljh/user/bin/mamba install -y -c conda-forge -c bokeh --file requirements.conda.txt --file requirements.txt
-sudo /opt/tljh/user/bin/mamba install -y -c conda-forge nbgitpuller
-
-# don't think I need this
-#   curl -fsSL https://deb.nodesource.com/setup_16.x | sudo bash
-#   sudo apt-get update
-#   sudo apt-get install -y  nodejs yarn 
-
-# CHANGE HOSTNAME as needed
-sudo hostname http://chpc3.nationalsciencedatafabric.org
+sudo /opt/tljh/user/bin/mamba install -y -c conda-forge -c bokeh jupyterhub --file requirements.conda.txt --file requirements.txt
 
 cat <<EOF > ./environment.py
 c.Spawner.environment = {
-        'JUPYTER_BOKEH_EXTERNAL_URL': '$(hostname)'
+        'JUPYTER_BOKEH_EXTERNAL_URL': 'http://$(hostname)'
 }
 EOF
 sudo mv environment.py  /opt/tljh/config/jupyterhub_config.d/environment.py
 
+# suggested
+# @plotly/dash-jupyterlab needs to be included in build
+# @jupyterlab/server-proxy needs to be included in build
+
+
 sudo tljh-config reload 
 sudo tljh-config reload proxy
 sudo tljh-config reload hub
+
+# see logs
+sudo journalctl -u jupyterhub
+sudo sudo journalctl -u traefik
+sudo journalctl -u jupyter-admin
+
 ```
 
 Links:
 - http://chpc1.nationalsciencedatafabric.org/
-- http://chpc2.nationalsciencedatafabric.org/
+- http://chpc2.nationalsciencedatafabric.org/ 
 - http://chpc3.nationalsciencedatafabric.org/
 
 Populate user folder:
 - https://nbgitpuller.readthedocs.io/en/latest/link.html
+- http://chpc1.nationalsciencedatafabric.org/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fnsdf-fabric%2Fsci-server&urlpath=lab%2Ftree%2Fsci-server%2F&branch=main
 - http://chpc2.nationalsciencedatafabric.org/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fnsdf-fabric%2Fsci-server&urlpath=lab%2Ftree%2Fsci-server%2F&branch=main
+- http://chpc3.nationalsciencedatafabric.org/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fnsdf-fabric%2Fsci-server&urlpath=lab%2Ftree%2Fsci-server%2F&branch=main
+
 
 
