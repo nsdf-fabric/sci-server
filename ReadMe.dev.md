@@ -172,3 +172,88 @@ Populate user folder:
 
 
 
+### JupyterLite (BROKEN)
+
+- https://github.com/jupyterlite/xeus-python-demo/tree/main?tab=readme-ov-file
+- https://beta.mamba.pm/channels/conda-forge?tab=packages
+- https://conda-forge.org/feedstock-outputs/
+- https://github.com/scrgiorgio/xeus-python-demo?tab=readme-ov-file
+- https://github.com/scrgiorgio/xeus-python-demo
+
+```bash
+
+git clone https://github.com/scrgiorgio/xeus-python-demo
+cd xeus-python-demo
+
+docker run -it  --network host -v ${PWD}:${PWD} -w ${PWD} ubuntu:latest /bin/bash
+
+apt update
+apt install -y curl git python3 
+
+curl -L "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" -o miniforge3.sh 
+bash miniforge3.sh -b
+export PATH=$PATH:~/miniforge3/bin
+eval "$(conda shell.bash hook)"
+
+# https://github.com/scrgiorgio/xeus-python-demo/blob/main/build-environment.yml
+rm -Rf ~/miniforge3/envs/build-env
+mamba create --name build-env -y -c conda-forge jupyterlite-xeus-python=1.0.0 jupyterlab_server
+
+conda activate build-env
+conda info
+
+cp README.md ./content/
+cp ../examples/nsdf/*.ipynb content/
+rm -Rf  /tmp/xeus-python-kernel ./dist ./_output
+
+# will take the environment.
+cat <<EOF > environment.yml
+name: xeus-python-kernel
+channels:
+  - https://repo.mamba.pm/emscripten-forge
+  - conda-forge
+dependencies:
+  - numpy
+  - matplotlib
+  - ipycanvas
+  - panel
+EOF
+
+
+jupyter lite build
+
+
+python3 -m http.server --directory _output/ --bind 0.0.0.0 14455
+jupyter lite serve --output-dir ./_output_  --port 14448
+
+# http://chpc1.nationalsciencedatafabric.org:14445/
+```
+OLD
+
+```bash
+# Right now jupyter lite seems to build the output based on installed packages. 
+# There should be other ways (e.g., JSON file or command line) for specifying packages, but for now creating a virtual env is good enough\
+# you need to have exactly the same package version inside your jupyter notebook (see `12-jupyterlite.ipynb`)
+python -m venv ./.venv
+source ./.venv/bin/activate
+python3 -m pip install \
+    jupyterlite==0.2.1 pyviz_comms numpy pandas requests xmltodict xyzservices pyodide-http colorcet \
+    https://cdn.holoviz.org/panel/1.3.6/dist/wheels/bokeh-3.3.2-py3-none-any.whl \
+    https://cdn.holoviz.org/panel/1.3.6/dist/wheels/panel-1.3.6-py3-none-any.whl \
+    jupyterlab_server \
+    jupyterlite-core \
+    jupyterlite-pyodide-kernel
+
+rm -Rf _output 
+jupyter lite build --contents ./content --output-dir ./_output
+
+# change port to avoid caching
+python3 -m http.server --directory _output/ --bind 0.0.0.0 15555
+
+
+jupyter lite serve --contents ./examples/notebooks --output-dir ${ENV}/_output --port ${PORT} 
+
+# copy the files somewhere for testing purpouse
+rsync -arv ${ENV}/_output/* <username>@<hostname>:jupyterlite-demos/
+```
+
