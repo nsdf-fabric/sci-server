@@ -22,15 +22,15 @@ Table of content:
 
 # Windows PIP
 
-Install python for windows (see https://www.python.org/downloads/windows/) or `git clone https://github.com/nsdf-fabric/sci-server`
-
-- Download https://codeload.github.com/nsdf-fabric/sci-server/zip/refs/heads/main
-- Unzip it in a folder
+- Download and Install Python for windows (see https://www.python.org/downloads/windows/) 
+- Download and install [git for windows](https://gitforwindows.org/)- 
 
 in a MSDOS prompt
 
 ```bat
-cd \directory\containing\unzipped\folder
+git clone https://github.com/nsdf-fabric/sci-server
+cd sci-server
+
 python -m venv .venv
 .venv\Scripts\activate
 python -m pip install  -r requirements.pip.txt -r requirements.txt
@@ -39,15 +39,16 @@ jupyter lab .
 
 # Windows Conda
 
-Download and install [Miniforge3-Windows-x86_64.exe](https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Windows-x86_64.exe)
-
-- Download https://codeload.github.com/nsdf-fabric/sci-server/zip/refs/heads/main or or `git clone https://github.com/nsdf-fabric/sci-server`
-- Unzip it in a folder
+- Download and install [Miniforge3-Windows-x86_64.exe](https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Windows-x86_64.exe)
+- Download and install [git for windows](https://gitforwindows.org/)- 
 
 in a MSDOS prompt
 
 ```bat
-cd \directory\containing\unzipped\folder
+
+git clone https://github.com/nsdf-fabric/sci-server`
+cd sci-server
+
 set PATH=%PATH%;%USERPROFILE%\miniforge3\Scripts
 mamba create --name my-env -y -c bokeh -c conda-forge --file requirements.conda.txt --file requirements.txt
 conda init
@@ -58,23 +59,22 @@ jupyter lab .
 
 ## Linux/macOS PIP 
 
-This works on Apple ARM64 too (i.e. Silicon M1/M2)
-
 ```bash
 
 git clone https://github.com/nsdf-fabric/sci-server
 cd sci-server
+
 python3 -m venv ./.venv
 source .venv/bin/activate
-python -m pip install  -r requirements.pip.txt -r requirements.txt
+python3 -m pip install  -r requirements.pip.txt -r requirements.txt
 jupyter lab  .
 ```
 
 ## Linux/macOS Conda
 
-This works on Apple ARM64 too (i.e. Silicon M1/M2)
+NOTE: This works on Apple ARM64 too (i.e. Silicon M1/M2)
 
-Install conda:
+Download and Install miniforge3:
 
 ```bash
 curl -L "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" -o miniforge3.sh 

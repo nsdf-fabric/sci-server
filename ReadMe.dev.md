@@ -1,8 +1,6 @@
 
 # Developer notes (INTERNAL USE ONLY)
 
-
-
 ## Docker build
 
 ```bash
@@ -18,7 +16,8 @@ sudo docker build --tag nsdf/sciserver:$TAG  --build-arg TAG=$TAG .
 # # check chrome developer console to see if the address is correct
 JUPYTER_PORT=8888
 JUPYTER_HOSTNAME=canada3.nationalsciencedatafabric.org
-JUPYTER_TOKEN=""
+JUPYTER_TOKEN=$(echo $RANDOM | md5sum | head -c 20; echo;)
+echo $JUPYTER_TOKEN
 JUPYTER_BOKEH_EXTERNAL_URL="http://${JUPYTER_HOSTNAME}:${JUPYTER_PORT}"
 JUPYTERHUB_SERVICE_PREFIX="/lab"
 sudo docker run \
@@ -44,11 +43,10 @@ jupyter lab --no-browser \
     --NotebookApp.allow_remote_access=True \
     --NotebookApp.quit_button=False 
 
-# http://canada3.nationalsciencedatafabric.org:8888/lab
+# http://canada3.nationalsciencedatafabric.org:8888/lab?token=$JUPYTER_TOKEN
 
 sudo docker push nsdf/sciserver:${TAG}
 ```
-
 
 # Setup SciServer node
 
@@ -64,8 +62,7 @@ echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.co
 sudo apt-get update
 sudo apt-get install -y yarn nodejs
 
-# here assuming you have the python ready
-# ....
+# (single) JupyterLab
 
 # enablejupyter lab proxy for bokeh
 # read this https://docs.bokeh.org/en/latest/docs/user_guide/output/jupyter.html
@@ -88,15 +85,12 @@ jupyter lab --no-browser \
     --NotebookApp.quit_button=False 
 ```
 
-## JupyterHub
-
+## M(multi) JupyterHub
 
 See:
 - https://github.com/jupyterhub/jupyterhub-the-hard-way/blob/HEAD/docs/installation-guide-hard.md
 - https://tljh.jupyter.org/en/latest/install/custom-server.html
 - https://docs.bokeh.org/en/latest/docs/user_guide/output/jupyter.htm
-
-
 
 
 ```bash
@@ -171,8 +165,7 @@ Populate user folder:
 - http://chpc3.nationalsciencedatafabric.org/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fnsdf-fabric%2Fsci-server&urlpath=lab%2Ftree%2Fsci-server%2F&branch=main
 
 
-
-### JupyterLite (BROKEN)
+# (client-side) JupyterLite (BROKEN)
 
 - https://github.com/jupyterlite/xeus-python-demo/tree/main?tab=readme-ov-file
 - https://beta.mamba.pm/channels/conda-forge?tab=packages
@@ -218,7 +211,6 @@ dependencies:
   - ipycanvas
   - panel
 EOF
-
 
 jupyter lite build
 
